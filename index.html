@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComponentHub | Biblioteca de Componentes Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --header-height: 4rem;
+        }
+        
+        .component-card {
+            transition: all 0.2s ease;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .code-block {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .light .gradient-bg {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .preview-container {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .category-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+        }
+        
+        .search-highlight {
+            background-color: rgba(255, 255, 0, 0.3);
+            border-radius: 0.25rem;
+        }
+        
+        /* Animaciones para el modal */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-content {
+            animation: fadeIn 0.3s ease, slideUp 0.4s ease;
+        }
+        
+        .component-preview {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .toast-show {
+            animation: slideUp 0.3s ease;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-10">
+                <div class="flex items-center space-x-2">
+                    <div class="bg-primary-500 w-8 h-8 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-cubes text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold text-primary-600 dark:text-primary-400">ComponentHub</span>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#core" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 font-medium">Core</a>
+                    <a href="#app-ui" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 font-medium">App UI</a>
+                    <a href="#marketing" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 font-medium">Marketing</a>
+                    <a href="#ecommerce" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 font-medium">E-Commerce</a>
+                    <a href="#dashboard" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 font-medium">Dashboard</a>
+                    <a href="#ai" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 font-medium">AI</a>
+                </nav>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Buscar componentes..." class="w-64 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+                </div>
+                
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <i class="fas fa-moon dark:hidden text-gray-700"></i>
+                    <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="gradient-bg rounded-2xl p-8 mb-12">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Biblioteca de Componentes Web</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">Encuentra componentes listos para usar en HTML, React y Vue. Más de 200 elementos cuidadosamente diseñados para acelerar tu desarrollo.</p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#components" class="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-6 rounded-lg transition">Explorar Componentes</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Search Results -->
+        <div id="search-results" class="hidden mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Resultados de Búsqueda</h2>
+                <button id="clear-search" class="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    Limpiar búsqueda
+                </button>
+            </div>
+            <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+        
+        <!-- Components Grid -->
+        <div id="components">
+            <!-- Core Components -->
+            <section id="core" class="mb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-cube mr-3 text-primary-500"></i>Core Components
+                        <span class="ml-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-normal px-2.5 py-0.5 rounded-full">33</span>
+                    </h2>
+                    <a href="#" class="text-sm text-primary-500 hover:text-primary-700 dark:hover:text-primary-400">Ver todos</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Component Cards -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Botones</h3>
+                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">Core</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="flex flex-wrap gap-3">
+                                <button class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition">Primario</button>
+                                <button class="px-4 py-2 bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-lg transition">Secundario</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="buttons">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">12 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Tarjetas</h3>
+                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">Core</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                                <div class="h-24 bg-primary-500"></div>
+                                <div class="p-4">
+                                    <h4 class="font-semibold">Título de Tarjeta</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Contenido descriptivo</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="cards">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">15 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Formularios</h3>
+                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">Core</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs">
+                                <label class="block text-sm font-medium mb-1">Nombre</label>
+                                <input type="text" placeholder="Ejemplo" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="forms">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">10 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Core Components -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Alertas</h3>
+                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">Core</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-100 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
+                                <div class="flex items-start">
+                                    <i class="fas fa-info-circle mt-0.5 mr-2"></i>
+                                    <span class="text-sm">Este es un mensaje informativo</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="alerts">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">8 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Avatares</h3>
+                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">Core</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-medium">JD</div>
+                                <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-user text-gray-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="avatars">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">6 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Badges</h3>
+                            <span class="category-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">Core</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-100 text-xs rounded-full">Nuevo</span>
+                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs rounded-full">Activo</span>
+                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 text-xs rounded-full">Error</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="badges">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">7 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- More Core Components would go here to reach 33 -->
+                    
+                </div>
+            </section>
+            
+            <!-- Application UI -->
+            <section id="app-ui" class="mb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-window-restore mr-3 text-green-500"></i>Application UI
+                        <span class="ml-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-normal px-2.5 py-0.5 rounded-full">33</span>
+                    </h2>
+                    <a href="#" class="text-sm text-primary-500 hover:text-primary-700 dark:hover:text-primary-400">Ver todos</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Component Cards -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Tablas</h3>
+                            <span class="category-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">App UI</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full overflow-hidden">
+                                <table class="min-w-full bg-white dark:bg-gray-800">
+                                    <thead>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <th class="px-4 py-2 text-left text-xs font-medium">Nombre</th>
+                                            <th class="px-4 py-2 text-left text-xs font-medium">Rol</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                                            <td class="px-4 py-2 text-sm">Usuario 1</td>
+                                            <td class="px-4 py-2 text-sm">Admin</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="tables">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">12 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Modales</h3>
+                            <span class="category-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">App UI</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="relative w-48 h-24 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-3">
+                                <div class="absolute top-1 right-1 text-gray-400">
+                                    <i class="fas fa-times text-xs"></i>
+                                </div>
+                                <p class="text-sm">Contenido del modal</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="modals">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">8 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Notificaciones</h3>
+                            <span class="category-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">App UI</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 border-l-4 border-green-500">
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-0.5 mr-2"></i>
+                                    <div>
+                                        <p class="font-medium">Acción completada</p>
+                                        <p class="text-xs text-gray-500">La operación se realizó con éxito</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="notifications">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">6 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- More Application UI Components would go here to reach 33 -->
+                    
+                </div>
+            </section>
+            
+            <!-- Marketing UI -->
+            <section id="marketing" class="mb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-bullhorn mr-3 text-yellow-500"></i>Marketing UI
+                        <span class="ml-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-normal px-2.5 py-0.5 rounded-full">33</span>
+                    </h2>
+                    <a href="#" class="text-sm text-primary-500 hover:text-primary-700 dark:hover:text-primary-400">Ver todos</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Component Cards -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Hero Sections</h3>
+                            <span class="category-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">Marketing</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="text-center">
+                                <h3 class="text-xl font-bold mb-2">Título Impactante</h3>
+                                <p class="text-sm mb-3">Descripción breve del producto</p>
+                                <button class="px-4 py-2 bg-primary-500 text-white rounded-lg text-sm">Comenzar</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="hero">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">15 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Testimonios</h3>
+                            <span class="category-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">Marketing</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="max-w-xs bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-10 h-10 rounded-full bg-gray-300 mr-3"></div>
+                                    <div>
+                                        <p class="font-medium">Cliente Satisfecho</p>
+                                        <p class="text-xs text-gray-500">CEO, Empresa</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm italic">"Excelente producto!"</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="testimonials">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">10 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Precios</h3>
+                            <span class="category-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">Marketing</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                                <h4 class="font-bold text-lg mb-2">Plan Básico</h4>
+                                <p class="text-2xl font-bold mb-2">$9.99<span class="text-sm font-normal text-gray-500">/mes</span></p>
+                                <ul class="text-sm space-y-1">
+                                    <li>✓ 10 proyectos</li>
+                                    <li>✓ Soporte básico</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="pricing">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">8 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- More Marketing UI Components would go here to reach 33 -->
+                    
+                </div>
+            </section>
+            
+            <!-- E-Commerce -->
+            <section id="ecommerce" class="mb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-shopping-cart mr-3 text-purple-500"></i>E-Commerce
+                        <span class="ml-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-normal px-2.5 py-0.5 rounded-full">33</span>
+                    </h2>
+                    <a href="#" class="text-sm text-primary-500 hover:text-primary-700 dark:hover:text-primary-400">Ver todos</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Component Cards -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Product Cards</h3>
+                            <span class="category-badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">E-Commerce</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm border border-gray-200 dark:border-gray-700">
+                                <div class="h-24 bg-gray-300"></div>
+                                <div class="p-4">
+                                    <h4 class="font-semibold">Producto</h4>
+                                    <p class="text-primary-500 font-bold mt-1">$19.99</p>
+                                    <button class="mt-2 w-full py-1 bg-primary-500 hover:bg-primary-600 text-white rounded text-sm">Añadir</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="product-cards">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">12 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Carritos</h3>
+                            <span class="category-badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">E-Commerce</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm">Producto 1</span>
+                                    <span class="text-sm font-medium">$19.99</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-bold">Total</span>
+                                    <span class="text-sm font-bold">$19.99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="carts">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">8 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Checkout</h3>
+                            <span class="category-badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100">E-Commerce</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-6 h-6 rounded-full border-2 border-primary-500 mr-2"></div>
+                                    <span class="text-sm">Método de pago</span>
+                                </div>
+                                <button class="w-full py-2 bg-primary-500 hover:bg-primary-600 text-white rounded text-sm">Pagar $19.99</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="checkout">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">10 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- More E-Commerce Components would go here to reach 33 -->
+                    
+                </div>
+            </section>
+            
+            <!-- Dashboard -->
+            <section id="dashboard" class="mb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-chart-line mr-3 text-red-500"></i>Dashboard
+                        <span class="ml-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-normal px-2.5 py-0.5 rounded-full">33</span>
+                    </h2>
+                    <a href="#" class="text-sm text-primary-500 hover:text-primary-700 dark:hover:text-primary-400">Ver todos</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Component Cards -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Gráficos</h3>
+                            <span class="category-badge bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100">Dashboard</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full h-full flex items-end space-x-1">
+                                <div class="w-1/5 h-1/4 bg-blue-400 rounded-t"></div>
+                                <div class="w-1/5 h-1/2 bg-blue-400 rounded-t"></div>
+                                <div class="w-1/5 h-3/4 bg-blue-400 rounded-t"></div>
+                                <div class="w-1/5 h-full bg-blue-400 rounded-t"></div>
+                                <div class="w-1/5 h-1/3 bg-blue-400 rounded-t"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="charts">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">15 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Estadísticas</h3>
+                            <span class="category-badge bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100">Dashboard</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Ventas</p>
+                                        <p class="text-xl font-bold">$24,560</p>
+                                    </div>
+                                    <div class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs rounded-full">+12%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="stats">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">10 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Tableros Kanban</h3>
+                            <span class="category-badge bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100">Dashboard</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full flex space-x-2">
+                                <div class="w-1/3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-2">
+                                    <h5 class="text-xs font-bold mb-2">Por hacer</h5>
+                                    <div class="h-16 bg-gray-100 dark:bg-gray-700 rounded"></div>
+                                </div>
+                                <div class="w-1/3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-2">
+                                    <h5 class="text-xs font-bold mb-2">En progreso</h5>
+                                    <div class="h-16 bg-gray-100 dark:bg-gray-700 rounded"></div>
+                                </div>
+                                <div class="w-1/3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 p-2">
+                                    <h5 class="text-xs font-bold mb-2">Completado</h5>
+                                    <div class="h-16 bg-gray-100 dark:bg-gray-700 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="kanban">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">8 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- More Dashboard Components would go here to reach 33 -->
+                    
+                </div>
+            </section>
+            
+            <!-- AI Components -->
+            <section id="ai" class="mb-16">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-robot mr-3 text-teal-500"></i>AI Components
+                        <span class="ml-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-normal px-2.5 py-0.5 rounded-full">35</span>
+                    </h2>
+                    <a href="#" class="text-sm text-primary-500 hover:text-primary-700 dark:hover:text-primary-400">Ver todos</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Component Cards -->
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Chatbots</h3>
+                            <span class="category-badge bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100">AI</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
+                                <div class="flex items-start mb-2">
+                                    <div class="w-6 h-6 rounded-full bg-teal-500 flex items-center justify-center text-white mr-2">
+                                        <i class="fas fa-robot text-xs"></i>
+                                    </div>
+                                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm">¿Cómo puedo ayudarte?</div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <div class="bg-primary-500 text-white rounded-lg px-3 py-2 text-sm max-w-xs">Hola!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="chatbots">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">12 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Generadores</h3>
+                            <span class="category-badge bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100">AI</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
+                                <textarea class="w-full p-2 border rounded-lg mb-2 text-sm" rows="2" placeholder="Describe lo que quieres generar..."></textarea>
+                                <button class="w-full py-2 bg-teal-500 hover:bg-teal-600 text-white rounded text-sm">Generar</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="generators">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">10 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-semibold text-lg">Análisis</h3>
+                            <span class="category-badge bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100">AI</span>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg h-40 flex items-center justify-center mb-4 p-4">
+                            <div class="w-full max-w-xs bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium">Sentimiento:</span>
+                                    <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs rounded-full">Positivo</span>
+                                </div>
+                                <div class="text-sm">El análisis indica una actitud positiva hacia el producto.</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="analysis">
+                                <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                            </button>
+                            <span class="text-sm text-gray-500">13 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <!-- More AI Components would go here to reach 35 -->
+                    
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Component Detail Modal -->
+    <div id="component-modal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden modal-content">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                    <h3 id="modal-title" class="text-xl font-bold">Detalles del Componente</h3>
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <span id="component-category" class="px-3 py-1 rounded-full text-sm font-medium">Categoría</span>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-code-branch mr-1"></i>
+                            <span id="variation-count">5 variaciones</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h4 class="font-semibold mb-3">Variaciones</h4>
+                        <div id="variations" class="flex flex-wrap gap-3 mb-6">
+                            <!-- Variations will be added here dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-semibold">Previsualización</h4>
+                            <div class="flex space-x-2">
+                                <button class="copy-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-format="html">
+                                    <i class="fab fa-html5 mr-1 text-orange-500"></i>Copiar HTML
+                                </button>
+                                <button class="copy-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-format="react">
+                                    <i class="fab fa-react mr-1 text-blue-500"></i>Copiar React
+                                </button>
+                                <button class="copy-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-format="vue">
+                                    <i class="fab fa-vuejs mr-1 text-green-500"></i>Copiar Vue
+                                </button>
+                            </div>
+                        </div>
+                        <div id="preview-container" class="preview-container border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-gray-50 dark:bg-gray-700">
+                            <!-- Preview will be added here dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-semibold">Código</h4>
+                            <div class="flex space-x-2">
+                                <button class="code-tab-btn px-3 py-1 rounded-lg text-sm font-medium bg-primary-500 text-white" data-tab="html">HTML</button>
+                                <button class="code-tab-btn px-3 py-1 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200" data-tab="react">React</button>
+                                <button class="code-tab-btn px-3 py-1 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200" data-tab="vue">Vue</button>
+                            </div>
+                        </div>
+                        <div id="code-container" class="code-block bg-gray-800 text-gray-100 rounded-lg p-4 overflow-x-auto">
+                            <pre><code id="code-content" class="text-sm">// Selecciona un formato para ver el código</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Simplificado -->
+    <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="bg-primary-500 w-8 h-8 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-cubes text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-primary-600 dark:text-primary-400">ComponentHub</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">La biblioteca de componentes más completa para tus proyectos web.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Categorías</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#core" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Core Components</a></li>
+                        <li><a href="#app-ui" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Application UI</a></li>
+                        <li><a href="#marketing" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Marketing UI</a></li>
+                        <li><a href="#ecommerce" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">E-Commerce</a></li>
+                        <li><a href="#dashboard" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">Dashboard</a></li>
+                        <li><a href="#ai" class="text-gray-600 dark:text-gray-400 hover:text-primary-500">AI Components</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-600 dark:text-gray-400 text-sm">
+                &copy; 2023 ComponentHub. Todos los componentes son gratuitos para uso personal y comercial.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-16 transition-transform duration-300 hidden">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span id="toast-message">Código copiado al portapapeles</span>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (currentTheme === 'dark') {
+            html.classList.add('dark');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+        
+        // Enhanced components data with more details
+        const components = [
+            // Core Components (33)
+            { 
+                id: 'buttons', 
+                name: 'Botones', 
+                category: 'Core Components', 
+                variations: 12,
+                description: 'Diferentes estilos y tamaños de botones para acciones en tu interfaz.',
+                tags: ['click', 'action', 'submit', 'interactive']
+            },
+            { 
+                id: 'cards', 
+                name: 'Tarjetas', 
+                category: 'Core Components', 
+                variations: 15,
+                description: 'Contenedores versátiles para mostrar contenido agrupado.',
+                tags: ['container', 'content', 'image', 'text']
+            },
+            { 
+                id: 'forms', 
+                name: 'Formularios', 
+                category: 'Core Components', 
+                variations: 10,
+                description: 'Elementos de entrada para recolectar datos de usuarios.',
+                tags: ['input', 'text', 'select', 'validation']
+            },
+            { 
+                id: 'alerts', 
+                name: 'Alertas', 
+                category: 'Core Components', 
+                variations: 8,
+                description: 'Mensajes para notificar al usuario sobre estados importantes.',
+                tags: ['notification', 'message', 'warning', 'success']
+            },
+            { 
+                id: 'avatars', 
+                name: 'Avatares', 
+                category: 'Core Components', 
+                variations: 6,
+                description: 'Representaciones visuales de usuarios o elementos.',
+                tags: ['profile', 'user', 'image', 'icon']
+            },
+            { 
+                id: 'badges', 
+                name: 'Badges', 
+                category: 'Core Components', 
+                variations: 7,
+                description: 'Pequeños elementos para mostrar estados o contadores.',
+                tags: ['status', 'count', 'label', 'indicator']
+            },
+            // More Core Components would be added here to reach 33
+            
+            // Application UI (33)
+            { 
+                id: 'tables', 
+                name: 'Tablas', 
+                category: 'Application UI', 
+                variations: 12,
+                description: 'Estructuras para mostrar datos tabulares con opciones de ordenamiento.',
+                tags: ['data', 'grid', 'rows', 'columns']
+            },
+            { 
+                id: 'modals', 
+                name: 'Modales', 
+                category: 'Application UI', 
+                variations: 8,
+                description: 'Ventanas emergentes para contenido o acciones importantes.',
+                tags: ['dialog', 'popup', 'overlay', 'focus']
+            },
+            { 
+                id: 'notifications', 
+                name: 'Notificaciones', 
+                category: 'Application UI', 
+                variations: 6,
+                description: 'Alertas no intrusivas para informar al usuario.',
+                tags: ['toast', 'message', 'alert', 'feedback']
+            },
+            // More Application UI Components would be added here to reach 33
+            
+            // Marketing UI (33)
+            { 
+                id: 'hero', 
+                name: 'Hero Sections', 
+                category: 'Marketing UI', 
+                variations: 15,
+                description: 'Secciones destacadas para captar la atención del usuario.',
+                tags: ['banner', 'headline', 'cta', 'main']
+            },
+            { 
+                id: 'testimonials', 
+                name: 'Testimonios', 
+                category: 'Marketing UI', 
+                variations: 10,
+                description: 'Comentarios de clientes para generar confianza.',
+                tags: ['review', 'feedback', 'quote', 'social proof']
+            },
+            { 
+                id: 'pricing', 
+                name: 'Precios', 
+                category: 'Marketing UI', 
+                variations: 8,
+                description: 'Tablas comparativas de planes y precios.',
+                tags: ['plans', 'subscription', 'comparison', 'features']
+            },
+            // More Marketing UI Components would be added here to reach 33
+            
+            // E-Commerce (33)
+            { 
+                id: 'product-cards', 
+                name: 'Product Cards', 
+                category: 'E-Commerce', 
+                variations: 12,
+                description: 'Tarjetas para mostrar productos con imágenes y precios.',
+                tags: ['item', 'shop', 'image', 'price']
+            },
+            { 
+                id: 'carts', 
+                name: 'Carritos', 
+                category: 'E-Commerce', 
+                variations: 8,
+                description: 'Resúmenes de productos seleccionados para compra.',
+                tags: ['checkout', 'items', 'total', 'order']
+            },
+            { 
+                id: 'checkout', 
+                name: 'Checkout', 
+                category: 'E-Commerce', 
+                variations: 10,
+                description: 'Flujo de compra con pasos para finalizar la transacción.',
+                tags: ['payment', 'shipping', 'form', 'purchase']
+            },
+            // More E-Commerce Components would be added here to reach 33
+            
+            // Dashboard (33)
+            { 
+                id: 'charts', 
+                name: 'Gráficos', 
+                category: 'Dashboard', 
+                variations: 15,
+                description: 'Visualizaciones de datos para análisis y reportes.',
+                tags: ['data', 'visualization', 'statistics', 'metrics']
+            },
+            { 
+                id: 'stats', 
+                name: 'Estadísticas', 
+                category: 'Dashboard', 
+                variations: 10,
+                description: 'Resúmenes numéricos con indicadores de tendencia.',
+                tags: ['numbers', 'kpi', 'metrics', 'performance']
+            },
+            { 
+                id: 'kanban', 
+                name: 'Tableros Kanban', 
+                category: 'Dashboard', 
+                variations: 8,
+                description: 'Sistemas de gestión visual de tareas y proyectos.',
+                tags: ['tasks', 'columns', 'drag', 'workflow']
+            },
+            // More Dashboard Components would be added here to reach 33
+            
+            // AI Components (35)
+            { 
+                id: 'chatbots', 
+                name: 'Chatbots', 
+                category: 'AI Components', 
+                variations: 12,
+                description: 'Interfaces de conversación asistidas por inteligencia artificial.',
+                tags: ['conversation', 'assistant', 'messages', 'ai']
+            },
+            { 
+                id: 'generators', 
+                name: 'Generadores', 
+                category: 'AI Components', 
+                variations: 10,
+                description: 'Herramientas para crear contenido con IA.',
+                tags: ['content', 'creation', 'text', 'ai']
+            },
+            { 
+                id: 'analysis', 
+                name: 'Análisis', 
+                category: 'AI Components', 
+                variations: 13,
+                description: 'Visualizaciones y conclusiones generadas por IA.',
+                tags: ['insights', 'data', 'processing', 'ai']
+            }
+            // More AI Components would be added here to reach 35
+        ];
+        
+        // Search functionality
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const resultsContainer = document.getElementById('results-container');
+        const clearSearch = document.getElementById('clear-search');
+        
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            
+            if (query.length === 0) {
+                searchResults.classList.add('hidden');
+                return;
+            }
+            
+            const filtered = components.filter(comp => 
+                comp.name.toLowerCase().includes(query) || 
+                comp.category.toLowerCase().includes(query) ||
+                comp.description.toLowerCase().includes(query) ||
+                comp.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+            
+            if (filtered.length > 0) {
+                displaySearchResults(filtered, query);
+                searchResults.classList.remove('hidden');
+            } else {
+                resultsContainer.innerHTML = '<p class="text-gray-500 py-4">No se encontraron componentes</p>';
+                searchResults.classList.remove('hidden');
+            }
+        });
+        
+        function displaySearchResults(results, query) {
+            resultsContainer.innerHTML = '';
+            
+            results.forEach(comp => {
+                const categoryClass = getCategoryClass(comp.category);
+                
+                const card = document.createElement('div');
+                card.className = 'component-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-semibold text-lg">${highlightSearch(comp.name, query)}</h3>
+                        <span class="category-badge ${categoryClass}">${highlightSearch(comp.category, query)}</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">${highlightSearch(comp.description, query)}</p>
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        ${comp.tags.map(tag => 
+                            `<span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">${highlightSearch(tag, query)}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="component-detail-btn px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm" data-component="${comp.id}">
+                            <i class="fas fa-eye mr-1"></i>Ver Variaciones
+                        </button>
+                        <span class="text-sm text-gray-500">${comp.variations} variaciones</span>
+                    </div>
+                `;
+                resultsContainer.appendChild(card);
+            });
+            
+            // Reattach event listeners to new buttons
+            document.querySelectorAll('.component-detail-btn').forEach(btn => {
+                btn.addEventListener('click', showComponentDetail);
+            });
+        }
+        
+        function highlightSearch(text, query) {
+            if (!query) return text;
+            
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+        
+        function getCategoryClass(category) {
+            switch(category) {
+                case 'Core Components': 
+                    return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100';
+                case 'Application UI': 
+                    return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100';
+                case 'Marketing UI': 
+                    return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100';
+                case 'E-Commerce': 
+                    return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100';
+                case 'Dashboard': 
+                    return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100';
+                case 'AI Components': 
+                    return 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-100';
+                default:
+                    return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100';
+            }
+        }
+        
+        clearSearch.addEventListener('click', function() {
+            searchInput.value = '';
+            searchResults.classList.add('hidden');
+        });
+        
+        // Component Detail Modal
+        const modal = document.getElementById('component-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const componentCategory = document.getElementById('component-category');
+        const variationCount = document.getElementById('variation-count');
+        const variationsContainer = document.getElementById('variations');
+        const previewContainer = document.getElementById('preview-container');
+        const codeContent = document.getElementById('code-content');
+        const codeTabButtons = document.querySelectorAll('.code-tab-btn');
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        
+        document.querySelectorAll('.component-detail-btn').forEach(btn => {
+            btn.addEventListener('click', showComponentDetail);
+        });
+        
+        closeModal.addEventListener('click', function() {
+            modal.classList.add('hidden');
+        });
+        
+        function showComponentDetail(e) {
+            const componentId = e.currentTarget.dataset.component;
+            const component = components.find(comp => comp.id === componentId);
+            
+            if (!component) return;
+            
+            // Update modal info
+            modalTitle.textContent = component.name;
+            componentCategory.textContent = component.category;
+            componentCategory.className = 'px-3 py-1 rounded-full text-sm font-medium ' + getCategoryClass(component.category);
+            variationCount.textContent = `${component.variations} variaciones`;
+            
+            // Generate variations
+            variationsContainer.innerHTML = '';
+            for (let i = 1; i <= component.variations; i++) {
+                const variationBtn = document.createElement('button');
+                variationBtn.className = 'variation-btn px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm';
+                variationBtn.textContent = `Variación ${i}`;
+                variationBtn.dataset.variation = i;
+                variationsContainer.appendChild(variationBtn);
+            }
+            
+            // Set first variation as active and load preview
+            const firstVariationBtn = variationsContainer.querySelector('.variation-btn');
+            if (firstVariationBtn) {
+                firstVariationBtn.classList.add('bg-primary-500', 'text-white', 'hover:bg-primary-600');
+                loadComponentPreview(component, 1);
+            }
+            
+            // Add event listeners to variation buttons
+            document.querySelectorAll('.variation-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.variation-btn').forEach(b => {
+                        b.classList.remove('bg-primary-500', 'text-white', 'hover:bg-primary-600');
+                        b.classList.add('bg-gray-100', 'dark:bg-gray-700', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+                    });
+                    this.classList.add('bg-primary-500', 'text-white', 'hover:bg-primary-600');
+                    this.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+                    
+                    const variation = parseInt(this.dataset.variation);
+                    loadComponentPreview(component, variation);
+                });
+            });
+            
+            // Reset code tabs
+            document.querySelectorAll('.code-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-primary-500', 'text-white');
+                btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
+            });
+            codeContent.textContent = '// Selecciona un formato para ver el código';
+            
+            // Show modal
+            modal.classList.remove('hidden');
+        }
+        
+        function loadComponentPreview(component, variation) {
+            // Generate different previews based on component and variation
+            let previewHTML = '';
+            let htmlCode = '';
+            let reactCode = '';
+            let vueCode = '';
+            
+            switch(component.id) {
+                case 'buttons':
+                    previewHTML = generateButtonVariation(variation);
+                    htmlCode = generateButtonHTML(variation);
+                    reactCode = generateButtonReact(variation);
+                    vueCode = generateButtonVue(variation);
+                    break;
+                case 'cards':
+                    previewHTML = generateCardVariation(variation);
+                    htmlCode = generateCardHTML(variation);
+                    reactCode = generateCardReact(variation);
+                    vueCode = generateCardVue(variation);
+                    break;
+                // More cases for other components...
+                default:
+                    previewHTML = `
+                        <div class="text-center">
+                            <div class="mb-4 text-4xl">
+                                <i class="fas fa-cube text-primary-500"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">${component.name} - Variación ${variation}</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Esta es una previsualización del componente.</p>
+                        </div>
+                    `;
+                    htmlCode = `<div class="${component.id}-variation-${variation}">
+    <!-- ${component.name} variation ${variation} HTML code -->
+</div>`;
+                    reactCode = `import React from 'react';
+
+const ${component.name.replace(/\s+/g, '')}${variation} = () => {
+    return (
+        <div className="${component.id}-variation-${variation}">
+            {/* ${component.name} variation ${variation} React code */}
+        </div>
+    );
+};
+
+export default ${component.name.replace(/\s+/g, '')}${variation};`;
+                    vueCode = `<template>
+    <div class="${component.id}-variation-${variation}">
+        <!-- ${component.name} variation ${variation} Vue code -->
+    </div>
+</template>
+
+<script>
+export default {
+    name: '${component.name.replace(/\s+/g, '')}${variation}'
+}
+</script>`;
+            }
+            
+            previewContainer.innerHTML = previewHTML;
+            
+            // Store code in data attributes for copying
+            previewContainer.dataset.htmlCode = htmlCode;
+            previewContainer.dataset.reactCode = reactCode;
+            previewContainer.dataset.vueCode = vueCode;
+            
+            // Set first tab as active
+            document.querySelector('.code-tab-btn[data-tab="html"]').click();
+        }
+        
+        // Example variation generators for buttons
+        function generateButtonVariation(variation) {
+            const colors = ['primary', 'blue', 'green', 'red', 'yellow', 'purple', 'pink', 'indigo', 'gray'];
+            const sizes = ['sm', 'md', 'lg', 'xl'];
+            const styles = ['solid', 'outline', 'ghost', 'link'];
+            
+            const color = colors[variation % colors.length];
+            const size = sizes[variation % sizes.length];
+            const style = styles[variation % styles.length];
+            
+            let buttonClass = '';
+            let buttonText = '';
+            
+            switch(style) {
+                case 'solid':
+                    buttonClass = `bg-${color}-500 hover:bg-${color}-600 text-white`;
+                    buttonText = 'Botón sólido';
+                    break;
+                case 'outline':
+                    buttonClass = `bg-transparent border border-${color}-500 text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón outline';
+                    break;
+                case 'ghost':
+                    buttonClass = `bg-transparent text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón ghost';
+                    break;
+                case 'link':
+                    buttonClass = `bg-transparent text-${color}-500 hover:underline`;
+                    buttonText = 'Botón link';
+                    break;
+            }
+            
+            switch(size) {
+                case 'sm':
+                    buttonClass += ' px-3 py-1 text-sm';
+                    break;
+                case 'md':
+                    buttonClass += ' px-4 py-2 text-base';
+                    break;
+                case 'lg':
+                    buttonClass += ' px-6 py-3 text-lg';
+                    break;
+                case 'xl':
+                    buttonClass += ' px-8 py-4 text-xl';
+                    break;
+            }
+            
+            return `
+                <div class="flex flex-col items-center">
+                    <button class="${buttonClass} rounded-lg transition mb-4">
+                        ${buttonText}
+                    </button>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Estilo: ${style}, Tamaño: ${size}, Color: ${color}
+                    </p>
+                </div>
+            `;
+        }
+        
+        function generateButtonHTML(variation) {
+            const colors = ['primary', 'blue', 'green', 'red', 'yellow', 'purple', 'pink', 'indigo', 'gray'];
+            const sizes = ['sm', 'md', 'lg', 'xl'];
+            const styles = ['solid', 'outline', 'ghost', 'link'];
+            
+            const color = colors[variation % colors.length];
+            const size = sizes[variation % sizes.length];
+            const style = styles[variation % styles.length];
+            
+            let buttonClass = '';
+            let buttonText = '';
+            
+            switch(style) {
+                case 'solid':
+                    buttonClass = `bg-${color}-500 hover:bg-${color}-600 text-white`;
+                    buttonText = 'Botón sólido';
+                    break;
+                case 'outline':
+                    buttonClass = `bg-transparent border border-${color}-500 text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón outline';
+                    break;
+                case 'ghost':
+                    buttonClass = `bg-transparent text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón ghost';
+                    break;
+                case 'link':
+                    buttonClass = `bg-transparent text-${color}-500 hover:underline`;
+                    buttonText = 'Botón link';
+                    break;
+            }
+            
+            switch(size) {
+                case 'sm':
+                    buttonClass += ' px-3 py-1 text-sm';
+                    break;
+                case 'md':
+                    buttonClass += ' px-4 py-2 text-base';
+                    break;
+                case 'lg':
+                    buttonClass += ' px-6 py-3 text-lg';
+                    break;
+                case 'xl':
+                    buttonClass += ' px-8 py-4 text-xl';
+                    break;
+            }
+            
+            return `<button class="${buttonClass} rounded-lg transition">
+    ${buttonText}
+</button>`;
+        }
+        
+        function generateButtonReact(variation) {
+            const colors = ['primary', 'blue', 'green', 'red', 'yellow', 'purple', 'pink', 'indigo', 'gray'];
+            const sizes = ['sm', 'md', 'lg', 'xl'];
+            const styles = ['solid', 'outline', 'ghost', 'link'];
+            
+            const color = colors[variation % colors.length];
+            const size = sizes[variation % sizes.length];
+            const style = styles[variation % styles.length];
+            
+            let buttonClass = '';
+            let buttonText = '';
+            
+            switch(style) {
+                case 'solid':
+                    buttonClass = `bg-${color}-500 hover:bg-${color}-600 text-white`;
+                    buttonText = 'Botón sólido';
+                    break;
+                case 'outline':
+                    buttonClass = `bg-transparent border border-${color}-500 text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón outline';
+                    break;
+                case 'ghost':
+                    buttonClass = `bg-transparent text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón ghost';
+                    break;
+                case 'link':
+                    buttonClass = `bg-transparent text-${color}-500 hover:underline`;
+                    buttonText = 'Botón link';
+                    break;
+            }
+            
+            switch(size) {
+                case 'sm':
+                    buttonClass += ' px-3 py-1 text-sm';
+                    break;
+                case 'md':
+                    buttonClass += ' px-4 py-2 text-base';
+                    break;
+                case 'lg':
+                    buttonClass += ' px-6 py-3 text-lg';
+                    break;
+                case 'xl':
+                    buttonClass += ' px-8 py-4 text-xl';
+                    break;
+            }
+            
+            return `import React from 'react';
+
+const ButtonVariation${variation} = () => {
+    return (
+        <button className="${buttonClass} rounded-lg transition">
+            ${buttonText}
+        </button>
+    );
+};
+
+export default ButtonVariation${variation};`;
+        }
+        
+        function generateButtonVue(variation) {
+            const colors = ['primary', 'blue', 'green', 'red', 'yellow', 'purple', 'pink', 'indigo', 'gray'];
+            const sizes = ['sm', 'md', 'lg', 'xl'];
+            const styles = ['solid', 'outline', 'ghost', 'link'];
+            
+            const color = colors[variation % colors.length];
+            const size = sizes[variation % sizes.length];
+            const style = styles[variation % styles.length];
+            
+            let buttonClass = '';
+            let buttonText = '';
+            
+            switch(style) {
+                case 'solid':
+                    buttonClass = `bg-${color}-500 hover:bg-${color}-600 text-white`;
+                    buttonText = 'Botón sólido';
+                    break;
+                case 'outline':
+                    buttonClass = `bg-transparent border border-${color}-500 text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón outline';
+                    break;
+                case 'ghost':
+                    buttonClass = `bg-transparent text-${color}-500 hover:bg-${color}-50 dark:hover:bg-${color}-900/20`;
+                    buttonText = 'Botón ghost';
+                    break;
+                case 'link':
+                    buttonClass = `bg-transparent text-${color}-500 hover:underline`;
+                    buttonText = 'Botón link';
+                    break;
+            }
+            
+            switch(size) {
+                case 'sm':
+                    buttonClass += ' px-3 py-1 text-sm';
+                    break;
+                case 'md':
+                    buttonClass += ' px-4 py-2 text-base';
+                    break;
+                case 'lg':
+                    buttonClass += ' px-6 py-3 text-lg';
+                    break;
+                case 'xl':
+                    buttonClass += ' px-8 py-4 text-xl';
+                    break;
+            }
+            
+            return `<template>
+    <button class="${buttonClass} rounded-lg transition">
+        ${buttonText}
+    </button>
+</template>
+
+<script>
+export default {
+    name: 'ButtonVariation${variation}'
+}
+</script>`;
+        }
+        
+        // Example variation generators for cards
+        function generateCardVariation(variation) {
+            const colors = ['primary', 'blue', 'green', 'red', 'yellow', 'purple', 'pink', 'indigo', 'gray'];
+            const styles = ['basic', 'image', 'action', 'stats', 'testimonial', 'product'];
+            
+            const color = colors[variation % colors.length];
+            const style = styles[variation % styles.length];
+            
+            let cardHTML = '';
+            
+            switch(style) {
+                case 'basic':
+                    cardHTML = `
+                        <div class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="p-4">
+                                <h4 class="font-semibold text-lg mb-2">Tarjeta Básica</h4>
+                                <p class="text-gray-600 dark:text-gray-300">Esta es una tarjeta simple con contenido.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'image':
+                    cardHTML = `
+                        <div class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="h-32 bg-${color}-500"></div>
+                            <div class="p-4">
+                                <h4 class="font-semibold text-lg mb-2">Tarjeta con Imagen</h4>
+                                <p class="text-gray-600 dark:text-gray-300">Tarjeta con encabezado de imagen.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'action':
+                    cardHTML = `
+                        <div class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="p-4">
+                                <h4 class="font-semibold text-lg mb-2">Tarjeta con Acción</h4>
+                                <p class="text-gray-600 dark:text-gray-300 mb-4">Tarjeta con botón de acción.</p>
+                                <button class="w-full py-2 bg-${color}-500 hover:bg-${color}-600 text-white rounded">Acción</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                // More card styles...
+                default:
+                    cardHTML = `
+                        <div class="w-full max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="p-4">
+                                <h4 class="font-semibold text-lg mb-2">Tarjeta Variación ${variation}</h4>
+                                <p class="text-gray-600 dark:text-gray-300">Estilo: ${style}, Color: ${color}</p>
+                            </div>
+                        </div>
+                    `;
+            }
+            
+            return cardHTML;
+        }
+        
+        function generateCardHTML(variation) {
+            // Similar to generateCardVariation but returns only the HTML code
+            // Implementation would mirror generateCardVariation but without wrapper divs
+            // ...
+            return `<div class="card-variation-${variation}">
+    <!-- Card HTML code -->
+</div>`;
+        }
+        
+        function generateCardReact(variation) {
+            // Similar to generateCardVariation but returns React component code
+            // Implementation would mirror generateCardVariation but in React syntax
+            // ...
+            return `import React from 'react';
+
+const CardVariation${variation} = () => {
+    return (
+        <div className="card-variation-${variation}">
+            {/* Card React code */}
+        </div>
+    );
+};
+
+export default CardVariation${variation};`;
+        }
+        
+        function generateCardVue(variation) {
+            // Similar to generateCardVariation but returns Vue component code
+            // Implementation would mirror generateCardVariation but in Vue syntax
+            // ...
+            return `<template>
+    <div class="card-variation-${variation}">
+        <!-- Card Vue code -->
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'CardVariation${variation}'
+}
+</script>`;
+        }
+        
+        // Code tab switching
+        codeTabButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const format = this.dataset.tab;
+                
+                // Update active tab
+                codeTabButtons.forEach(b => {
+                    b.classList.remove('bg-primary-500', 'text-white');
+                    b.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
+                });
+                this.classList.add('bg-primary-500', 'text-white');
+                this.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-gray-200');
+                
+                // Update code content
+                if (previewContainer.dataset[`${format}Code`]) {
+                    codeContent.textContent = previewContainer.dataset[`${format}Code`];
+                }
+            });
+        });
+        
+        // Copy code to clipboard
+        copyButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const format = this.dataset.format;
+                const code = previewContainer.dataset[`${format}Code`] || '';
+                
+                if (code) {
+                    navigator.clipboard.writeText(code).then(() => {
+                        showToast(`Código ${format.toUpperCase()} copiado al portapapeles`);
+                    });
+                }
+            });
+        });
+        
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            toast.classList.remove('translate-y-16');
+            toast.classList.add('translate-y-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-16');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
