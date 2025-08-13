@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel de Cartas de Presentación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .carousel-container {
+            scroll-behavior: smooth;
+        }
+        
+        .card {
+            min-width: 350px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .initials {
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; top: 20%; right: 15%; animation-delay: 1s; }
+        .shape:nth-child(3) { width: 40px; height: 40px; top: 60%; left: 20%; animation-delay: 2s; }
+        .shape:nth-child(4) { width: 100px; height: 100px; bottom: 20%; right: 10%; animation-delay: 3s; }
+        .shape:nth-child(5) { width: 50px; height: 50px; top: 70%; right: 30%; animation-delay: 4s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .nav-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-red-400">
+    
+    <!-- Header -->
+    <header class="text-center py-8">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+            Cartas de Presentación UPV :3
+        </h1>
+        <p class="text-xl text-white/90 drop-shadow">Conoce a los Hardcore</p>
+    </header>
+
+    <!-- Carousel Container -->
+    <div class="relative max-w-7xl mx-auto px-4">
+        
+        <!-- Navigation Buttons -->
+        <button id="prevBtn" class="nav-btn absolute left-2 top-1/2 transform -translate-y-1/2 z-10 bg-white/70 hover:bg-white/90 rounded-full p-3 shadow-lg">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        
+        <button id="nextBtn" class="nav-btn absolute right-2 top-1/2 transform -translate-y-1/2 z-10 bg-white/70 hover:bg-white/90 rounded-full p-3 shadow-lg">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+
+        <!-- Carousel -->
+        <div id="carousel" class="carousel-container flex gap-6 overflow-x-auto pb-8 px-12 snap-x snap-mandatory">
+            
+            <!-- Card 1 -->
+            <div class="card snap-center bg-gradient-to-br from-pink-300 to-pink-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">1</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Barbie Viridiana Lumbreras Olvera</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430189</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430189@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Vamos por un elote"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Ejercicio</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card snap-center bg-gradient-to-br from-blue-300 to-blue-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">2</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">David Eduardo Salazar Mireles</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430239</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430239@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"lo mamado mamado esta"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Nothing bro</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card snap-center bg-gradient-to-br from-green-300 to-green-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">3</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Angel D' Karlo Enciso Garcen</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430257</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430257@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Lo hago mañana"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Jugar Videojuegos</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card snap-center bg-gradient-to-br from-purple-300 to-purple-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">4</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Jesus Juarez Ramirez</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2330186</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2330186@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Se lo pido a enciso"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Rankear en lol</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card snap-center bg-gradient-to-br from-yellow-300 to-orange-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">5</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Myranda Belen Infante Castillo</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430384</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430384@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Tengo hambre"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Ta cabron</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="card snap-center bg-gradient-to-br from-teal-300 to-cyan-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">6</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Melissa Jazmin Torres Martinez</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430017</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430017@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Oye w"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Escuchar musica</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="card snap-center bg-gradient-to-br from-indigo-300 to-purple-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">7</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Gabriel Hernandez Gallegos</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430599</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430599@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Dejenmelo a mi"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Comer tacos</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="card snap-center bg-gradient-to-br from-rose-300 to-pink-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">8</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">David Salvador Contreras Grimaldo</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2330162</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2330162@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"El señor es mi pastor,nada me faltara"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Trabajar</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 9 -->
+            <div class="card snap-center bg-gradient-to-br from-emerald-300 to-teal-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">9</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Ulises Gael Zamarripa Villanueva</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430551</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430551@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"No es flojera, es ahorro de energía"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: hacerme la manuela</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 10 -->
+            <div class="card snap-center bg-gradient-to-br from-amber-300 to-yellow-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">10</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Carlos Guillermo Moncada Ortiz</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430039</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430039@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"chatgpt erotic"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Dormir</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 11 -->
+            <div class="card snap-center bg-gradient-to-br from-violet-300 to-purple-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">11</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Vasti Norely Ruiz Baez</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430010</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430010@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Esta tipa "</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: jugar futbol</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 12 -->
+            <div class="card snap-center bg-gradient-to-br from-sky-300 to-blue-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">12</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Dulce Yaretzi Martinez Perez</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430038</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430038@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Eso q w"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: nOTHING BRO</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 13 -->
+            <div class="card snap-center bg-gradient-to-br from-lime-300 to-green-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">13</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Christopher Raúl Chapa Pedraza</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430303</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430303@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Saquen los penes grandes"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: megustahacerlosincondonconmarcelo</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 14 -->
+            <div class="card snap-center bg-gradient-to-br from-orange-300 to-red-400 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+                <div class="floating-shapes">
+                    <div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div>
+                </div>
+                <div class="relative z-10">
+                    <div class="initials text-6xl font-bold text-white/80 mb-4">14</div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Rodrigo Damián Álvarez Aguilar</h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><span>🎓</span><span class="font-medium">Matrícula: 2430040</span></div>
+                        <div class="flex items-center gap-2"><span>📧</span><span>2430040@upv.edu.mx</span></div>
+                        <div class="mt-4 p-3 bg-white/30 rounded-lg"><p class="text-gray-800 italic">"Zzz"</p></div>
+                        <div class="flex items-center gap-2 mt-4"><span>🎯</span><span class="font-medium">Hobby: Tocar guitarra</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('carousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const cardWidth = 350 + 24; // 350px width + 24px gap
+
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

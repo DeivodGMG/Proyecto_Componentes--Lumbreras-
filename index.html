@@ -7,70 +7,25 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        /* Estilos personalizados y para el modo oscuro */
         :root {
-            --background-light: #f9fafb;
-            --text-light: #1f2937;
-            --background-dark: #111827;
-            --text-dark: #f9fafb;
-            --card-bg-light: #ffffff;
-            --card-bg-dark: #1f2937;
-            --border-light: #e5e7eb;
-            --border-dark: #374151;
+            --background-light: #f9fafb; --text-light: #1f2937;
+            --background-dark: #111827; --text-dark: #f9fafb;
+            --card-bg-light: #ffffff; --card-bg-dark: #1f2937;
+            --border-light: #e5e7eb; --border-dark: #374151;
         }
-
-        html.dark {
-            color-scheme: dark;
-        }
-
-        body {
-            background-color: var(--background-light);
-            color: var(--text-light);
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        html.dark body {
-            background-color: var(--background-dark);
-            color: var(--text-dark);
-        }
-
-        .card {
-            background-color: var(--card-bg-light);
-            border: 1px solid var(--border-light);
-        }
-
-        html.dark .card {
-            background-color: var(--card-bg-dark);
-            border-color: var(--border-dark);
-        }
-        
-        .component-preview {
-            min-height: 200px;
-        }
-
-        /* Estilos para la barra de scroll */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        html.dark ::-webkit-scrollbar-track {
-            background: #2d3748;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-        html.dark ::-webkit-scrollbar-thumb {
-            background: #555;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        html.dark ::-webkit-scrollbar-thumb:hover {
-            background: #777;
-        }
+        html.dark { color-scheme: dark; }
+        body { background-color: var(--background-light); color: var(--text-light); transition: background-color 0.3s, color 0.3s; }
+        html.dark body { background-color: var(--background-dark); color: var(--text-dark); }
+        .card { background-color: var(--card-bg-light); border: 1px solid var(--border-light); }
+        html.dark .card { background-color: var(--card-bg-dark); border-color: var(--border-dark); }
+        .component-preview { min-height: 200px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        html.dark ::-webkit-scrollbar-track { background: #2d3748; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        html.dark ::-webkit-scrollbar-thumb { background: #555; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        html.dark ::-webkit-scrollbar-thumb:hover { background: #777; }
     </style>
 </head>
 <body class="font-sans">
@@ -80,8 +35,40 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    <i class="fa-solid fa-fire text-2xl text-orange-500"></i>
-                    <h1 class="text-xl font-bold">LumbreGood</h1>
+                    <a href="index.html" class="flex items-center space-x-4">
+                        <i class="fa-solid fa-fire text-2xl text-orange-500"></i>
+                        <h1 class="text-xl font-bold">LumbreGood</h1>
+                    </a>
+                    
+                    <!-- INICIO: Menú Desplegable de Proyectos -->
+                    <div class="relative">
+                        <button id="projects-menu-button" class="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                            <span class="font-semibold text-sm">Proyectos</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="projects-menu" class="hidden absolute mt-2 w-52 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-1">
+                            <a href="proyecto-cartas.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Carrusel de Cartas
+                            </a>
+                            <a href="proyecto-pedido.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Componente de Pedido
+                            </a>
+                            <a href="proyecto-calendario.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Calendario Interactivo
+                            </a>
+                            <a href="proyecto-catalogo.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Catálogo de Componentes
+                            </a>
+                            <a href="proyecto-cartita.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Carta Interactiva 3D
+                            </a>
+                            <a href="proyecto-reservas/index.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                Resumen de Citas
+                            </a>
+                        </div>
+                    </div>
+                    <!-- FIN: Menú Desplegable de Proyectos -->
+
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
@@ -102,9 +89,7 @@
 
     <!-- Contenido Principal -->
     <main class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <div id="component-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Los componentes se insertarán aquí dinámicamente desde components.js -->
-        </div>
+        <div id="component-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         <div id="no-results" class="hidden text-center py-16">
             <i class="fa-solid fa-face-sad-tear text-5xl text-gray-400 mb-4"></i>
             <h2 class="text-2xl font-bold text-gray-600 dark:text-gray-300">No se encontraron componentes</h2>
@@ -119,126 +104,80 @@
         </div>
     </footer>
 
-    <!-- Se carga la base de datos de componentes -->
+    <!-- Scripts -->
     <script src="components.js"></script>
-    
-    <!-- Script principal para la lógica de la página -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- GESTIÓN DEL TEMA (MODO OSCURO/CLARO) ---
             const themeToggle = document.getElementById('theme-toggle');
             const htmlEl = document.documentElement;
-
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 htmlEl.classList.add('dark');
             } else {
                 htmlEl.classList.remove('dark');
             }
-
             themeToggle.addEventListener('click', () => {
                 htmlEl.classList.toggle('dark');
-                if (htmlEl.classList.contains('dark')) {
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    localStorage.setItem('theme', 'light');
+                localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+            });
+            const projectsMenuButton = document.getElementById('projects-menu-button');
+            const projectsMenu = document.getElementById('projects-menu');
+            projectsMenuButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                projectsMenu.classList.toggle('hidden');
+            });
+            window.addEventListener('click', () => {
+                if (!projectsMenu.classList.contains('hidden')) {
+                    projectsMenu.classList.add('hidden');
                 }
             });
-
-            // --- REFERENCIAS A ELEMENTOS DEL DOM ---
             const componentGrid = document.getElementById('component-grid');
             const searchInput = document.getElementById('searchInput');
             const noResults = document.getElementById('no-results');
-
-            // --- FUNCIÓN PARA RENDERIZAR COMPONENTES ---
-            // La variable 'components' viene del archivo 'components.js'
             const renderComponents = (filter = '') => {
                 componentGrid.innerHTML = '';
                 const lowerCaseFilter = filter.toLowerCase();
-                const filteredComponents = components.filter(c => 
-                    c.name.toLowerCase().includes(lowerCaseFilter) || 
-                    c.category.toLowerCase().includes(lowerCaseFilter)
-                );
-
+                const filteredComponents = components.filter(c => c.name.toLowerCase().includes(lowerCaseFilter) || c.category.toLowerCase().includes(lowerCaseFilter));
                 if (filteredComponents.length === 0) {
                     noResults.classList.remove('hidden');
+                    componentGrid.classList.add('hidden');
                 } else {
                     noResults.classList.add('hidden');
+                    componentGrid.classList.remove('hidden');
                 }
-
                 filteredComponents.forEach((component, index) => {
-                    // Usamos un ID único basado en el nombre y la categoría para evitar problemas al filtrar
                     const componentId = `component-${component.name.replace(/\s+/g, '-')}-${index}`;
                     const card = document.createElement('div');
                     card.className = 'card rounded-lg shadow-md overflow-hidden transition-shadow hover:shadow-xl flex flex-col';
-                    card.innerHTML = `
-                        <div class="p-5 border-b border-gray-200 dark:border-gray-700">
-                            <h2 class="text-lg font-semibold">${component.name}</h2>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">${component.category}</p>
-                        </div>
-                        <div id="${componentId}-preview" class="component-preview bg-gray-100 dark:bg-gray-800 p-6 flex-grow flex items-center justify-center">
-                            <!-- La vista previa del componente se renderizará aquí -->
-                        </div>
-                        <div class="p-4 bg-gray-50 dark:bg-gray-800/50">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
-                                    <i class="fa-solid fa-code-compare text-gray-500"></i>
-                                    <select id="${componentId}-variation-select" class="text-sm rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 py-1">
-                                        ${component.variations.map((v, i) => `<option value="${i}">${v.name}</option>`).join('')}
-                                    </select>
-                                </div>
-                                <button id="${componentId}-copy-btn" class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-2 px-3 rounded inline-flex items-center transition-colors">
-                                    <i class="fa-solid fa-copy mr-2"></i>
-                                    <span>Copiar</span>
-                                </button>
-                            </div>
-                        </div>
-                    `;
+                    card.innerHTML = `<div class="p-5 border-b border-gray-200 dark:border-gray-700"><h2 class="text-lg font-semibold">${component.name}</h2><p class="text-sm text-gray-500 dark:text-gray-400">${component.category}</p></div><div id="${componentId}-preview" class="component-preview bg-gray-100 dark:bg-gray-800 p-6 flex-grow flex items-center justify-center overflow-auto"></div><div class="p-4 bg-gray-50 dark:bg-gray-800/50"><div class="flex items-center justify-between"><div class="flex items-center space-x-2"><i class="fa-solid fa-code-compare text-gray-500"></i><select id="${componentId}-variation-select" class="text-sm rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 py-1">${component.variations.map((v, i) => `<option value="${i}">${v.name}</option>`).join('')}</select></div><button id="${componentId}-copy-btn" class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-2 px-3 rounded inline-flex items-center transition-colors"><i class="fa-solid fa-copy mr-2"></i><span>Copiar</span></button></div></div>`;
                     componentGrid.appendChild(card);
-
                     const previewEl = document.getElementById(`${componentId}-preview`);
                     const variationSelect = document.getElementById(`${componentId}-variation-select`);
                     const copyBtn = document.getElementById(`${componentId}-copy-btn`);
-
                     const updateVariation = () => {
                         const selectedVariationIndex = variationSelect.value;
                         const selectedVariation = component.variations[selectedVariationIndex];
                         previewEl.innerHTML = selectedVariation.code;
-                        
                         copyBtn.querySelector('span').textContent = 'Copiar';
                         copyBtn.querySelector('i').className = 'fa-solid fa-copy mr-2';
                         copyBtn.className = 'bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold py-2 px-3 rounded inline-flex items-center transition-colors';
                     };
-
                     variationSelect.addEventListener('change', updateVariation);
-
                     copyBtn.addEventListener('click', () => {
                         const selectedVariationIndex = variationSelect.value;
                         const codeToCopy = component.variations[selectedVariationIndex].code;
-                        
                         navigator.clipboard.writeText(codeToCopy).then(() => {
                             copyBtn.querySelector('span').textContent = 'Copiado';
                             copyBtn.querySelector('i').className = 'fa-solid fa-check mr-2';
                             copyBtn.className = 'bg-green-500 hover:bg-green-600 text-white text-sm font-bold py-2 px-3 rounded inline-flex items-center transition-colors';
-
                             setTimeout(updateVariation, 2000);
-                        }).catch(err => {
-                            console.error('Error al copiar el código: ', err);
                         });
                     });
-
                     updateVariation();
                 });
             };
-
-            // --- BÚSQUEDA DE COMPONENTES ---
-            searchInput.addEventListener('input', (e) => {
-                renderComponents(e.target.value);
-            });
-
-            // Renderizar todos los componentes al inicio
+            searchInput.addEventListener('input', (e) => renderComponents(e.target.value));
             renderComponents();
         });
     </script>
-
 </body>
 </html>

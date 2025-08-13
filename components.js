@@ -1,6 +1,6 @@
 
 const components = [
-    // =============== CATEGORÍA: Botones ===============
+    // buttons
     {
         name: "Botón Estándar",
         category: "Botones",
@@ -136,7 +136,7 @@ const components = [
         ]
     },
 
-    // =============== CATEGORÍA: Formularios ===============
+    // Formularios
     {
         name: "Input",
         category: "Formularios",
@@ -183,7 +183,7 @@ const components = [
         ]
     },
 
-    // =============== CATEGORÍA: Navegación ===============
+    // Navegacion
     {
         name: "Barra de Navegación",
         category: "Navegación",
@@ -218,7 +218,7 @@ const components = [
         ]
     },
 
-    // =============== CATEGORÍA: Modales y Overlays ===============
+    // = CATEGORÍA: Modales y Overlays
     {
         name: "Modal (Requiere JS)",
         category: "Modales y Overlays",
@@ -247,7 +247,7 @@ const components = [
         ]
     },
 
-    // =============== CATEGORÍA: Layout y Estructura ===============
+    // CATEGORÍA: Layout y Estructura 
     {
         name: "Divisor",
         category: "Layout y Estructura",
@@ -265,7 +265,7 @@ const components = [
         ]
     },
 
-    // =============== CATEGORÍA: Feedback e Indicadores ===============
+    // CATEGORÍA: Feedback e Indicadores
     {
         name: "Tooltip (Requiere JS/CSS)",
         category: "Feedback e Indicadores",
@@ -316,7 +316,7 @@ const components = [
         ]
     },
 
-    // =============== CATEGORÍA: Visualización de Datos ===============
+    //  CATEGORÍA: Visualización de Datos 
     {
         name: "Tabla",
         category: "Visualización de Datos",
